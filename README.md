@@ -86,7 +86,7 @@ See [DATABASE.md](./DATABASE.md).
 
 # Database Description
 
-![Schema ER Diagram](https://github.com/StefanosChaliasos/solidity-inline-assembly/blob/main/schema.jpg?raw=true)
+![Schema ER Diagram](https://github.com/StefanosChaliasos/solidity-inline-assembly/blob/main/figures/schema.jpg?raw=true)
 
 We provide an SQLite database (see the file `database/inline.db`) that contains
 all the information needed for the quantitative analysis.
