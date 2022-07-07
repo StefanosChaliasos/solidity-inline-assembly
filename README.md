@@ -248,7 +248,7 @@ Get the address of 10 smart contracts that use the `extcodesize` OPCODE.
 
 ```
 # ~10 seconds
-qlite3 database/inline.db "SELECT a.address FROM Address AS a JOIN SolidityFile AS s ON a.address_id = s.address_id JOIN Contract AS c ON s.file_id = c.file_id JOIN Fragment AS f ON c.contract_id = f.contract_id JOIN OpcodesPerFragment AS o ON f.fragment_id = o.fragment_id JOIN Opcode AS op ON o.opcode_id = op.opcode_id WHERE op.opcode_name = 'extcodesize' GROUP BY a.address LIMIT 10"
+sqlite3 database/inline.db "SELECT a.address FROM Address AS a JOIN SolidityFile AS s ON a.address_id = s.address_id JOIN Contract AS c ON s.file_id = c.file_id JOIN Fragment AS f ON c.contract_id = f.contract_id JOIN OpcodesPerFragment AS o ON f.fragment_id = o.fragment_id JOIN Opcode AS op ON o.opcode_id = op.opcode_id WHERE op.opcode_name = 'extcodesize' GROUP BY a.address LIMIT 10"
 0x0000000000051b0e35293cafaa205f461cd1fbb6
 0x00000000000b7f8e8e8ad148f9d53303bfe20796
 0x00000000001e980d286be7f5f978f4cc33128202
