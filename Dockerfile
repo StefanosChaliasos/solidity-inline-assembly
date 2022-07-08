@@ -4,7 +4,8 @@ ENV TZ=Europe/Athens
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt update -yq && apt upgrade -yq
 RUN apt install -y vim software-properties-common git curl unzip zip sudo \
-    sqlite3 wget unzip locales jq cloc
+    sqlite3 wget unzip locales jq cloc texlive-latex-extra \
+    dvipng texlive-latex-extra texlive-fonts-recommended cm-super
 RUN sudo locale-gen "en_US.UTF-8"
 RUN update-locale LC_ALL="en_US.UTF-8"
 RUN add-apt-repository ppa:deadsnakes/ppa && \

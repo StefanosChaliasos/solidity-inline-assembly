@@ -21,7 +21,8 @@ on any Linux distro or Cygwin (or any similar) on Windows).
 We provide a Dockerfile to build an image based on Ubuntu 18.04 that contains:
 
 * An installation of Python (version 3.9.10). 
-* An install of SQLite3.
+* An installation of SQLite3.
+* An installation of latex.
 * Various command-line utilities (i.e., `jq`, `curl`, and `cloc`).
 * Python packages for analyzing Solidity files, 
 performing HTTP requests,
@@ -81,5 +82,6 @@ requests py-etherscan-api solidity_parser matplotlib seaborn beautifulsoup4 tqdm
 APT repository of Ubuntu).
 
 ```
-curl sqlite3 jq cloc
+curl sqlite3 jq cloc texlive-latex-extra dvipng texlive-latex-extra 
+texlive-fonts-recommended cm-super
 ```
