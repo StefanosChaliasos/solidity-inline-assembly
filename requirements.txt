@@ -1,0 +1,8 @@
+requests
+py-etherscan-api
+solidity_parser
+matplotlib
+seaborn
+beautifulsoup4
+tqdm
+UpSetPlot
