@@ -218,28 +218,28 @@ From inside the container, we can perform some basic queries on our database.
 Get the total number of contracts without inline assembly.
 
 ```
-sqlite3 database/inline.db "SELECT COUNT(*) FROM NonAssemblyAddress"
+inline@a9cc16b080f9:~$ sqlite3 database/inline.db "SELECT COUNT(*) FROM NonAssemblyAddress"
 5331931
 ```
 
 Get the total number of contracts containing inline assembly with more than 10 transactions.
 
 ```
-sqlite3 database/inline.db "SELECT COUNT(*) FROM Address WHERE nr_transactions > 10"
+inline@a9cc16b080f9:~$ sqlite3 database/inline.db "SELECT COUNT(*) FROM Address WHERE nr_transactions > 10"
 136048
 ```
 
 Get the sum of balances of all contracts that contain inline assembly.
 
 ```
-sqlite3 database/inline.db "SELECT SUM(tvl) FROM Address"
+inline@a9cc16b080f9:~$ sqlite3 database/inline.db "SELECT SUM(tvl) FROM Address"
 4774806.1840864
 ```
 
 Count all contracts that contain inline assembly fragments.
 
 ```
-sqlite3 database/inline.db "SELECT COUNT(*) FROM Contract WHERE has_assembly = 'True'"
+inline@a9cc16b080f9:~$ sqlite3 database/inline.db "SELECT COUNT(*) FROM Contract WHERE has_assembly = 'True'"
 2128026
 ```
 
@@ -249,7 +249,7 @@ Get the address of 10 smart contracts that use the `extcodesize` OPCODE.
 
 ```
 # ~10 seconds
-sqlite3 database/inline.db "SELECT a.address FROM Address AS a JOIN SolidityFile AS s ON a.address_id = s.address_id JOIN Contract AS c ON s.file_id = c.file_id JOIN Fragment AS f ON c.contract_id = f.contract_id JOIN OpcodesPerFragment AS o ON f.fragment_id = o.fragment_id JOIN Opcode AS op ON o.opcode_id = op.opcode_id WHERE op.opcode_name = 'extcodesize' GROUP BY a.address LIMIT 10"
+inline@a9cc16b080f9:~$ sqlite3 database/inline.db "SELECT a.address FROM Address AS a JOIN SolidityFile AS s ON a.address_id = s.address_id JOIN Contract AS c ON s.file_id = c.file_id JOIN Fragment AS f ON c.contract_id = f.contract_id JOIN OpcodesPerFragment AS o ON f.fragment_id = o.fragment_id JOIN Opcode AS op ON o.opcode_id = op.opcode_id WHERE op.opcode_name = 'extcodesize' GROUP BY a.address LIMIT 10"
 0x0000000000051b0e35293cafaa205f461cd1fbb6
 0x00000000000b7f8e8e8ad148f9d53303bfe20796
 0x00000000001e980d286be7f5f978f4cc33128202
@@ -285,7 +285,7 @@ statistics about the dataset.
 ```bash
 TOTAL=$(cat database/contract_addresses.csv | wc -l | xargs)
 # ~10 seconds
-python scripts/db_queries.py database/inline.db --total-contracts $TOTAL
+inline@a9cc16b080f9:~$ python scripts/db_queries.py database/inline.db --total-contracts $TOTAL
 Source statistics
 -----------------
 
@@ -319,6 +319,7 @@ locally.
 docker run -ti --rm \
   -v $(pwd)/database:/home/inline/database \
   -v $(pwd)/figures:/home/inline/figures \
+  -v $(pwd)/data:/home/inline/data \
   solidity-inline-assembly
 ```
 
@@ -333,7 +334,7 @@ Specifically, the scripts reproduces Figure 3.
 
 ```bash
 #~8 minutes
-./scripts/get_statistics.sh database/contract_addresses.csv
+inline@a9cc16b080f9:~$ ./scripts/get_statistics.sh database/contract_addresses.csv
 ```
 
 The above script prints the following, i.e., the first 7 lines of Figure 3.
@@ -357,9 +358,9 @@ submitted draft; instead of `14,339,876` it should be `14,339,858`.
 Proceed with the next script:
 
 ```bash
-TOTAL=$(cat database/contract_addresses.csv | wc -l | xargs)
+inline@a9cc16b080f9:~$ TOTAL=$(cat database/contract_addresses.csv | wc -l | xargs)
 # ~10 seconds
-python scripts/db_queries.py database/inline.db --total-contracts $TOTAL
+inline@a9cc16b080f9:~$ python scripts/db_queries.py database/inline.db --total-contracts $TOTAL
 ```
 
 The above script prints the following, i.e., the last 5 lines of Figure 3.
@@ -393,7 +394,7 @@ against the paper.
 
 ```
 #~5 minutes
-python scripts/db_queries.py database/inline.db --rq1
+inline@a9cc16b080f9:~$ python scripts/db_queries.py database/inline.db --rq1
 ```
 
 This script prints the following.
@@ -447,7 +448,7 @@ The claims of the paper that are supported by that script are:
 
 ```
 #~2 minutes
-python scripts/db_queries.py database/inline.db --rq2
+inline@a9cc16b080f9:~$ python scripts/db_queries.py database/inline.db --rq2
 ```
 
 This script prints the following.
@@ -504,7 +505,7 @@ The claims of the paper that are supported by that script are:
 
 ```
 #~30 seconds
-python scripts/db_queries.py database/inline.db --rq3
+inline@a9cc16b080f9:~$ python scripts/db_queries.py database/inline.db --rq3
 ```
 
 This script prints the following.
@@ -539,7 +540,7 @@ The claims of the paper that are supported by that script are:
 
 ```
 #~12 minutes
-python scripts/db_queries.py database/inline.db --rq4
+inline@a9cc16b080f9:~$ python scripts/db_queries.py database/inline.db --rq4
 ```
 
 This script prints the following.
@@ -927,6 +928,7 @@ your local file system.
 docker run -ti --rm \
   -v $(pwd)/database:/home/inline/database \
   -v $(pwd)/figures:/home/inline/figures \
+  -v $(pwd)/data:/home/inline/data \
   -v $(pwd)/sample_dataset:/home/inline/sample_dataset \
   solidity-inline-assembly
 ```
@@ -945,7 +947,7 @@ You can follow [this link](https://info.etherscan.com/etherscan-developer-api-ke
 After generating that key, set a shell variable, namely `API_KEY`.
 
 ```bash
-API_KEY=<YOUR_API_KEY>
+inline@a9cc16b080f9:~$ API_KEY=<YOUR_API_KEY>
 ```
 
 ### Dataset Collection
@@ -953,8 +955,8 @@ API_KEY=<YOUR_API_KEY>
 1. Create a directory to save the dataset.
 
 ```bash
-mkdir sample_dataset
-TARGET=sample_dataset
+inline@a9cc16b080f9:~$ mkdir sample_dataset
+inline@a9cc16b080f9:~$ TARGET=sample_dataset
 ```
 
 2. Get a sample dataset of contract addresses.
@@ -968,10 +970,10 @@ For the "Feed Results into the Database" commands, we copied everything to a
 machine with enough disk space and 200GB RAM. Analyzing all addresses took 
 us around one month.
 
-```
+```bash
 # ~90 seconds
-tail -n +2 database/contract_addresses.csv| shuf -n 50 > $TARGET/dataset.csv
-cat $TARGET/dataset.csv | cut -d ',' -f1 > $TARGET/contracts.csv
+inline@a9cc16b080f9:~$ tail -n +2 database/contract_addresses.csv| shuf -n 50 > $TARGET/dataset.csv
+inline@a9cc16b080f9:~$ cat $TARGET/dataset.csv | cut -d ',' -f1 > $TARGET/contracts.csv
 ```
 
 These commands will generate two new files. `$TARGET/dataset.csv` contains 
@@ -987,7 +989,7 @@ contracts.
 
 ```bash
 # ~60 seconds
-python scripts/get_contracts.py --dataset $TARGET $API_KEY $TARGET/contracts.csv
+inline@a9cc16b080f9:~$ python scripts/get_contracts.py --dataset $TARGET $API_KEY $TARGET/contracts.csv
 Etherscan API Key      UEDCMZ5W5I5NXDQ1HHEMT5EW27BAF2THK6
 Nr of contracts        50
 Contracts processed    0
@@ -1031,16 +1033,17 @@ Note that in this section we'll use the following programs:
 * `sort`
 
 Check before running the following commands that you have installed the aforementioned
-tools (all of them are by default install in most UNIX-like OSes).
+tools (all of them are by default installed in most UNIX-like OSes).
 
-You will also need to install the following tool.
+You will also need to install the following tools.
 
 * `cloc`
+* `jq`
 
 4. Set dataset file
 
 ```bash
-DATASET=contracts.csv
+inline@a9cc16b080f9:~$ DATASET=contracts.csv
 ```
 
 5. Split files that contain multiple contracts
@@ -1050,7 +1053,7 @@ You can run the following command to split those contracts into multiple files.
 The files will be created into a directory named after the initial file.
 
 ```bash
-python scripts/split_mutliple_files.py ${TARGET}/sol
+inline@a9cc16b080f9:~$ python scripts/split_mutliple_files.py ${TARGET}/sol
 
 Find Files
 Nr of files: 27
@@ -1065,12 +1068,12 @@ Nr of JSON files: 0
 Now we are going to find duplicate contracts.
 
 ```bash
-find ${TARGET}/sol ! -empty -type f \
+inline@a9cc16b080f9:~$ find ${TARGET}/sol ! -empty -type f \
     -exec sh -c "cat '{}' | tr -d '[:space:]' | sha256sum | awk '{print \$1 \" {} \"}' " \;  \
     | sort > ${TARGET}/sha256sum_results
-cat ${TARGET}/sha256sum_results | \
+inline@a9cc16b080f9:~$ cat ${TARGET}/sha256sum_results | \
     ./scripts/create_duplicates_json.py > ${TARGET}/sha256_result.json
-python scripts/process_duplicates.py ${TARGET}/sol/ \
+inline@a9cc16b080f9:~$ python scripts/process_duplicates.py ${TARGET}/sol/ \
     ${TARGET}/sha256_result.json \
     ${TARGET}/duplicates.json
 
@@ -1108,10 +1111,10 @@ Then, when feeding the database, we'll feed the data for all contracts using
 the results of the duplicates.
 
 ```bash
-cat ${TARGET}/duplicates.json | jq -r '.hashes | .[] | .[0]' \
+inline@a9cc16b080f9:~$ cat ${TARGET}/duplicates.json | jq -r '.hashes | .[] | .[0]' \
     > ${TARGET}/unique_addresses.txt
 # Create list of complete paths
-cat ${TARGET}/unique_addresses.txt | \
+inline@a9cc16b080f9:~$ cat ${TARGET}/unique_addresses.txt | \
     awk -v env_var="${TARGET}" '{ print env_var "/sol/" $0 ".sol"; }' \
     > ${TARGET}/unique_paths.txt
 ```
@@ -1120,8 +1123,8 @@ cat ${TARGET}/unique_addresses.txt | \
 
 Here we use cloc to compute the lines of code of each smart contract.
 
-```
-cloc --csv ${TARGET}/sol/ \
+```bash
+inline@a9cc16b080f9:~$ cloc --csv ${TARGET}/sol/ \
     --list-file=${TARGET}/unique_paths.txt \
     --report-file=${TARGET}/cloc_results.csv \
     --ignored=${TARGET}/cloc_ignored.csv \
@@ -1133,7 +1136,7 @@ Wrote sample_dataset/cloc_ignored.csv
        0 files ignored.
 Wrote sample_dataset/cloc_results.csv
 
-python scripts/process_cloc_results.py \
+inline@a9cc16b080f9:~$ python scripts/process_cloc_results.py \
     ${TARGET}/sol/ \
     ${TARGET}/cloc_results.csv \
     ${TARGET}/cloc_ignored.csv \
@@ -1148,8 +1151,8 @@ Write sample_dataset/unique_lines.csv
 
 The following command will simply print how many contracts contain inline assembly.
 
-```
-cat ${TARGET}/unique_paths.txt \
+```bash
+inline@a9cc16b080f9:~$ cat ${TARGET}/unique_paths.txt \
     | xargs grep -r -l -o ".*assembly.*" | cut -d '/' -f1,2,3,4 | uniq | wc -l
 ```
 
@@ -1159,9 +1162,9 @@ Now we'll create a directory named `assembly`, on which we are going to
 copy all the unique contracts that contain inline assembly.
 Note that instead of `cp` you can use `mv`.
 
-```
-mkdir ${TARGET}/assembly
-cat ${TARGET}/unique_paths.txt \
+```bash
+inline@a9cc16b080f9:~$ mkdir ${TARGET}/assembly
+inline@a9cc16b080f9:~$ cat ${TARGET}/unique_paths.txt \
     | xargs grep -r -l -o ".*assembly.*" | cut -d '/' -f1,2,3,4 | uniq \
     | xargs -I{} cp -r -u {} ${TARGET}/assembly
 ```
@@ -1174,9 +1177,9 @@ First, we are going to use a custom parser that detects and analyzes
 inline assembly fragments. In the following command, you can replace
 `4` with the number of cores you want to use.
 
-```
+```bash
 # ~5-10 seconds depending on how many contracts you have to analyze
-./scripts/run_parser.sh ${TARGET}/assembly ${TARGET}/parser 4
+inline@a9cc16b080f9:~$ ./scripts/run_parser.sh ${TARGET}/assembly ${TARGET}/parser 4
 ```
 
 This will create a directory called `${TARGET}/parser` that contains JSON files 
@@ -1191,11 +1194,11 @@ inline assembly fragment, whereas the latter contains all addresses of contracts
 that do not contain inline assembly.
 
 ```bash
-python scripts/contains_assembly.py \
+inline@a9cc16b080f9:~$ python scripts/contains_assembly.py \
     ${TARGET}/parser \
     ${TARGET}/duplicates.json \
     > ${TARGET}/assembly_contracts.csv
-comm -23 <(ls ${TARGET}/sol | sed 's/\.sol//g' | sort) \
+inline@a9cc16b080f9:~$ comm -23 <(ls ${TARGET}/sol | sed 's/\.sol//g' | sort) \
     <(sort ${TARGET}/assembly_contracts.csv) \
     > ${TARGET}/non_assembly_contracts.csv
 ```
@@ -1210,7 +1213,7 @@ the database, and finally, we'll feed the data into the database.
 13. Create JSON file with Etherscan data.
 
 ```bash
-python scripts/get_etherscan.py ${TARGET}/json ${TARGET}/etherscan_data.json
+inline@a9cc16b080f9:~$ python scripts/get_etherscan.py ${TARGET}/json ${TARGET}/etherscan_data.json
 Read sample_dataset/json
 Process sample_dataset/json
 100%|████████████████████████████████████████████████████████████████████████████████████████████████| 50/50 [00:00<00:00, 379.05it/s]
@@ -1225,7 +1228,7 @@ This script takes as input all the files we have generated in the previous steps
 our database schema into the `$TARGET/csvs` directory.
 
 ```bash
-python scripts/create_csv.py \
+inline@a9cc16b080f9:~$ python scripts/create_csv.py \
     $TARGET/dataset.csv \
     ${TARGET}/unique_lines.csv \
     ${TARGET}/duplicates.json \
@@ -1250,21 +1253,21 @@ The following commands will first generate an SQLite database, and then it
 will feed the results of the analysis into the database.
 
 ```bash
-./scripts/create_db.sh ${TARGET}/db inline.db scripts/schema.sql
+inline@a9cc16b080f9:~$ ./scripts/create_db.sh ${TARGET}/db inline.db scripts/schema.sql
 -- Loading resources from scripts/schema.sql
 # We redirect stderr to /dev/null because Opcode.csv and OldOpcode.csv 
 # contain, on purpuse, some lines that break the unique contraint check.
-sqlite3 $TARGET/db/inline.db < ${TARGET}/csvs/populate.sql 2> /dev/null
+inline@a9cc16b080f9:~$ sqlite3 $TARGET/db/inline.db < ${TARGET}/csvs/populate.sql 2> /dev/null
 ```
 
 To check if the database has been initialized correctly, you can run the following
 command.
 
 ```bash
-sqlite3 $TARGET/db/inline.db "SELECT count(*) FROM Address"
+inline@a9cc16b080f9:~$ sqlite3 $TARGET/db/inline.db "SELECT count(*) FROM Address"
 5
 # The result should be the same as the result of the following command.
-cat $TARGET/assembly_contracts.csv| wc -l
+inline@a9cc16b080f9:~$ cat $TARGET/assembly_contracts.csv| wc -l
        5
 ```
 
@@ -1273,8 +1276,8 @@ cat $TARGET/assembly_contracts.csv| wc -l
 16. Print Statistics of the Dataset
 
 ```bash
-TOTAL=$(cat $TARGET/contracts.csv | wc -l | xargs)
-python scripts/db_queries.py ${TARGET}/db/inline.db --total-contracts $TOTAL
+inline@a9cc16b080f9:~$ TOTAL=$(cat $TARGET/contracts.csv | wc -l | xargs)
+inline@a9cc16b080f9:~$ python scripts/db_queries.py ${TARGET}/db/inline.db --total-contracts $TOTAL
 Source statistics
 -----------------
 
@@ -1291,7 +1294,7 @@ LOC of Unique Solidity Contracts: 514
 ```bash
 # Probably it will print in the end an error message that it can't generate
 # figures/taxonomy_categories.pdf because there aren't enough data.
-python scripts/db_queries.py ${TARGET}/db/inline.db --quantitative-analysis
+inline@a9cc16b080f9:~$ python scripts/db_queries.py ${TARGET}/db/inline.db --quantitative-analysis
 ...
 ```
 
