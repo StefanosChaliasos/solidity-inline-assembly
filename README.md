@@ -20,10 +20,10 @@ the project directory (e.g., `cd solidity-inline-assembly`).
 
 - [Overview](#overview)
 - [Requirements](#requirements)
+- [Setup](#setup)
 - [Download Database](#download-database)
 - [Database Description](#database-description)
 - [Dataset (Optionally)](#dataset-optionally)
-- [Setup](#setup)
 - [Getting Started](#getting-started)
   * [Query the Database](#query-the-database)
   * [Get Dataset Details](#get-dataset-details)
@@ -79,6 +79,11 @@ and the last from block `14339858` (Mar-07-2022).
 # Requirements
 
 See [REQUIREMENTS.md](./REQUIREMENTS.md).
+
+# Setup
+
+See [SETUP.md](./SETUP.md).
+
 
 # Download Database
 
@@ -169,10 +174,6 @@ The tables that provide the names for each instruction/opcode are
 # Dataset (Optional)
 
 See [DATASET.md](./DATASET.md).
-
-# Setup
-
-See [SETUP.md](./SETUP.md).
 
 # Getting Started
 
