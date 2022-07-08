@@ -38,6 +38,8 @@ def main():
     with open(args.ignored, 'r') as fp:
         reader = csv.reader(fp, delimiter=",", quotechar='"')
         for row in reader:
+            if len(row) == 0:
+                continue
             # Different versions of cloc have different delimiters
             if ':' in row[0]:
                 row = row[0].split(':')
