@@ -180,7 +180,7 @@ See [DATASET.md](./DATASET.md).
 __Total time:__ less than 30 minutes (depending on your internet connection).
 
 Before proceeding to this section, make sure you have followed the instructions in
- [Download Database](#download-database) and [Setup](#Setup) sections.
+[Setup](#Setup) and [Download Database](#download-database) sections.
 
 Let's start by validating that all the required data have been downloaded.
 
