@@ -1153,7 +1153,7 @@ The following command will simply print how many contracts contain inline assemb
 
 ```bash
 inline@a9cc16b080f9:~$ cat ${TARGET}/unique_paths.txt \
-    | xargs grep -r -l -o ".*assembly.*" | cut -d '/' -f1,2,3,4 | uniq | wc -l
+    | xargs grep -r -l -o ".*assembly.*" | cut -d '/' -f1,2,3 | uniq | wc -l
 ```
 
 10. Export contracts with assembly code
@@ -1165,7 +1165,7 @@ Note that instead of `cp` you can use `mv`.
 ```bash
 inline@a9cc16b080f9:~$ mkdir ${TARGET}/assembly
 inline@a9cc16b080f9:~$ cat ${TARGET}/unique_paths.txt \
-    | xargs grep -r -l -o ".*assembly.*" | cut -d '/' -f1,2,3,4 | uniq \
+    | xargs grep -r -l -o ".*assembly.*" | cut -d '/' -f1,2,3 | uniq \
     | xargs -I{} cp -r -u {} ${TARGET}/assembly
 ```
 
