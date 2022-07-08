@@ -921,10 +921,11 @@ token_transfers_from.tx_count + token_transfers_to.tx_count > 0
 
 #### Run with Docker
 
-If you run the following using Docker, mount `data/sample_dataset` to 
+If you run the following using Docker, mount `data` and `sample_dataset` to 
 your local file system.
 
 ```
+mkdir -p sample_dataset
 docker run -ti --rm \
   -v $(pwd)/database:/home/inline/database \
   -v $(pwd)/figures:/home/inline/figures \
@@ -952,10 +953,9 @@ inline@a9cc16b080f9:~$ API_KEY=<YOUR_API_KEY>
 
 ### Dataset Collection
 
-1. Create a directory to save the dataset.
+1. Set target directory to `sample_dataset`.
 
 ```bash
-inline@a9cc16b080f9:~$ mkdir -p sample_dataset
 inline@a9cc16b080f9:~$ TARGET=sample_dataset
 ```
 
