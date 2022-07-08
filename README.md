@@ -1260,15 +1260,12 @@ inline@a9cc16b080f9:~$ ./scripts/create_db.sh ${TARGET}/db inline.db scripts/sch
 inline@a9cc16b080f9:~$ sqlite3 $TARGET/db/inline.db < ${TARGET}/csvs/populate.sql 2> /dev/null
 ```
 
-To check if the database has been initialized correctly, you can run the following
+To check if the database has been initialized, you can run the following
 command.
 
 ```bash
 inline@a9cc16b080f9:~$ sqlite3 $TARGET/db/inline.db "SELECT count(*) FROM Address"
 5
-# The result should be the same as the result of the following command.
-inline@a9cc16b080f9:~$ cat $TARGET/assembly_contracts.csv| wc -l
-       5
 ```
 
 ### Print Results
