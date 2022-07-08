@@ -1,4 +1,5 @@
 __pycache__/
 figures/*.pdf
 database/
+data/
 sample_dataset/
