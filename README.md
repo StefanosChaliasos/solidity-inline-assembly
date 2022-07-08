@@ -955,7 +955,7 @@ inline@a9cc16b080f9:~$ API_KEY=<YOUR_API_KEY>
 1. Create a directory to save the dataset.
 
 ```bash
-inline@a9cc16b080f9:~$ mkdir sample_dataset
+inline@a9cc16b080f9:~$ mkdir -p sample_dataset
 inline@a9cc16b080f9:~$ TARGET=sample_dataset
 ```
 
