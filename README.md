@@ -990,7 +990,7 @@ contracts.
 ```bash
 # ~60 seconds
 inline@a9cc16b080f9:~$ python scripts/get_contracts.py --dataset $TARGET $API_KEY $TARGET/contracts.csv
-Etherscan API Key      UEDCMZ5W5I5NXDQ1HHEMT5EW27BAF2THK6
+Etherscan API Key      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 Nr of contracts        50
 Contracts processed    0
 Dataset                sample_dataset -- 0
