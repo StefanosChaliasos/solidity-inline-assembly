@@ -34,7 +34,7 @@ the project directory (e.g., `cd solidity-inline-assembly`).
     + [RQ2: Smart Contract Characteristics (Section 4.2)](#rq2-smart-contract-characteristics-section-42)
     + [RQ3: Evolution of Inline Assembly (Section 4.3)](#rq3-evolution-of-inline-assembly-section-43)
     + [RQ4: A Taxonomy of Inline Assembly (Section 4.4)](#rq4-a-taxonomy-of-inline-assembly-section-44)
-- [Extras](#extras)
+- [Extras (Optionally)](#extras-optionally)
   * [Instructions to Detect Contract Addresses](#instructions-to-detect-contract-addresses)
   * [Query Google Big Query to Get Contract Data](#query-google-big-query-to-get-contract-data)
   * [Analyze X Contracts From Scratch](#analyze-x-contracts-from-scratch)
@@ -171,7 +171,7 @@ The tables that provide the names for each instruction/opcode are
 `HighLevelConstruct`, `Declaration`, `SpecialOpcode`, 
 `OldOpcode`, and `Opcode`.
 
-# Dataset (Optional)
+# Dataset (Optionally)
 
 See [DATASET.md](./DATASET.md).
 
