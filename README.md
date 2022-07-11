@@ -1004,18 +1004,24 @@ Empty      23
 Invalid    0
 ```
 
-This script uses the API of <https://etherscan.io> and tries to download the verified source code of its contract if available.
+This script uses the API of <https://etherscan.io> and tries to download the 
+verified source code of its contract if available.
 For example, in the above run: 27 contracts have their code verified in 
 <https://etherscan.io>, whereas 23 do not. Note that if invalid is greater than 1, 
 it means that the request fails for some contracts.
-That could happen, for example, if your network is unstable. You can re-run the exact same command
+That could happen, for example, if your network is unstable. 
+You can re-run the exact same command
 to try to query the missing contracts.
 
 The results of this script are saved in two directories: `$TARGET/json` and `$TARGET/sol`.
 The former would contain a JSON file for each contract address regardless 
 if we managed to download its source code.
-Each JSON contains the source code (if available), the ABI (if available), the version of the compiler it was used to compile the contract, optimization options used (if available), and some additional fields such as license type and EVM version.
-On the other hand, in `$TARGET/sol` it saves a file per contract address, only for verified contracts containing their source code.
+Each JSON contains the source code (if available), the ABI (if available), 
+the version of the compiler it was used to compile the contract, 
+optimization options used (if available), and some additional fields such as 
+license type and EVM version.
+On the other hand, in `$TARGET/sol` it saves a file per contract address, 
+only for verified contracts containing their source code.
 
 ### Post Filtering
 
