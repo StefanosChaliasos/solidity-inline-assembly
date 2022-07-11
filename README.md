@@ -51,7 +51,7 @@ The purpose of this artifact is
 (1) to reproduce the results presented in our paper, 
 (2) to document our dataset in order to facilitate further research, 
 and (3) to document and make available some additional resources to help 
-researchers build on top of this artifact ([Extras](#extras)). 
+researchers build on top of this artifact ([Extras](#extras-optionally)). 
 Specifically, the artifact has the following structure:
 
 * `scripts/`: This is the directory that contains the scripts needed to reproduce 
