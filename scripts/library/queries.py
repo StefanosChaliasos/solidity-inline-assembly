@@ -142,6 +142,25 @@ QUERIES = {
         "GROUP BY s.address_id"
     ),
 
+    "fragments_per_unique_address": (
+        "SELECT COUNT(DISTINCT f.hash) "
+        "FROM Address AS a "
+        "JOIN SolidityFile AS s ON s.address_id = a.address_id "
+        "JOIN Contract AS c ON c.file_id = s.file_id "
+        "JOIN Fragment AS f ON f.contract_id = c.contract_id "
+        "GROUP BY a.hash"
+    ),
+    "fragments_per_address_filtered": (
+        "SELECT COUNT(DISTINCT f.hash) "
+        "FROM Address AS a "
+        "JOIN SolidityFile AS s ON s.address_id = a.address_id "
+        "JOIN Contract AS c ON c.file_id = s.file_id "
+        "JOIN Fragment AS f ON f.contract_id = c.contract_id "
+        "WHERE a.nr_transactions {comp_tx} {nr_tx} "
+        "{filters_cond} a.nr_token_transfers {comp_tk} {nr_tk} "
+        "GROUP BY a.hash"
+    ),
+
     "fragments_per_address_filter": (
         "SELECT COUNT(*) "
         "FROM Fragment as f "

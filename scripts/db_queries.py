@@ -478,7 +478,9 @@ def get_cumulative_distribution(values):
 def measuring(con, figures, latex=False, disable_figures=False, filters={}):
     def compute_addresses():
         assembly_contract_perc = get_perc(assembly_addresses, total_addresses)
-        return assembly_contract_perc
+        assembly_contract_unique_perc = get_perc(
+            assembly_addresses_unique, total_addresses_unique)
+        return assembly_contract_perc, assembly_contract_unique_perc
 
     def density():
         print("--Density of inline assembly fragments--")
@@ -492,6 +494,7 @@ def measuring(con, figures, latex=False, disable_figures=False, filters={}):
 
     def fragments():
         fragments_per_address_stats = get_stats(fragments_per_address)
+        fragments_per_unique_address_stats = get_stats(fragments_per_unique_address)
         if not disable_figures:
             #fragments_hist_figure = os.path.join(figures, 'fragments_hist.pdf')
             #print(f"Saving histogram at {fragments_hist_figure}")
@@ -511,7 +514,7 @@ def measuring(con, figures, latex=False, disable_figures=False, filters={}):
                              "Percentage", 
                              [1, 10, 20, 30, 40, 50, 60, 70, 81]
                              ,"blue")
-        return fragments_per_address_stats
+        return fragments_per_address_stats, fragments_per_unique_address_stats
 
     def unique_fragments():
         unique_fragments = process_res(
@@ -564,6 +567,10 @@ def measuring(con, figures, latex=False, disable_figures=False, filters={}):
     fragments_per_address = process_res(
         run_query(con, 'fragments_per_address', filters=filters), 'values'
     )
+    fragments_per_unique_address = process_res(
+        run_query(con, 'fragments_per_unique_address', filters=filters), 
+        'values'
+    )
     (total_instructions_per_address, 
      total_instructions_per_fragment,
      total_instructions_per_unique_fragment) = get_total_instructions_per(
@@ -571,12 +578,15 @@ def measuring(con, figures, latex=False, disable_figures=False, filters={}):
     total_fragments = sum(fragments_per_address)
     without_addresses, assembly_addresses, total_addresses = get_addresses(
             con, filters)
+    (without_addresses_unique, 
+     assembly_addresses_unique, 
+     total_addresses_unique) = get_unique_addresses(con, filters)
 
-    assembly_contract_perc = compute_addresses()
+    assembly_contract_perc, assembly_contract_unique_perc = compute_addresses()
     print()
     one_frag_per_x_locs = density()
     print()
-    fragments_per_address_stats = fragments()
+    fragments_per_address_stats, fragments_per_unique_address_stats = fragments()
     print()
     unique_fragments, uf_perc, unique_fragments_per_address = unique_fragments()
     print()
@@ -588,14 +598,19 @@ def measuring(con, figures, latex=False, disable_figures=False, filters={}):
             "Total Contracts": {"Total": total_addresses},
             "Total Contracts using Inline Assembly": {
                 "Total": f"{assembly_addresses} ({assembly_contract_perc}%)"},
+            "Total Unique Contracts": {"Total": total_addresses_unique},
+            "Total Unique Contracts using Inline Assembly": {
+                "Total": f"{assembly_addresses_unique} ({assembly_contract_unique_perc}%)"},
             "Total Inline Assembly Fragments": {"Total": 
                 fragments_per_address_stats['total']},
+            "Total Inline Assembly Fragments in Unique Addresses": {"Total": 
+                fragments_per_unique_address_stats['total']},
             "Total Inline Assembly Unique Fragments": {"Total": 
                 unique_fragments},
             "Total Instructions": {"Total": 
                 instructions_per_fragment_stats['total']}
     }
-    print_res('Statistics Table', statistics_table, 'table', first_col=40)
+    print_res('Statistics Table', statistics_table, 'table', first_col=55)
 
     frag_instr_table = {
         "Fragments per contract": fragments_per_address_stats,
@@ -612,11 +627,16 @@ def measuring(con, figures, latex=False, disable_figures=False, filters={}):
         print_latex("totaladdresses", total_addresses)
         print_latex("addresseswith", assembly_addresses)
         print_latex("addresseswithperc", assembly_contract_perc, "\\%")
+        print_latex("totaladdressesunique", total_addresses_unique)
+        print_latex("addresseswithunique", assembly_addresses_unique)
+        print_latex("addresseswithpercunique", assembly_contract_unique_perc, "\\%")
         print_latex("addresseswithout", without_addresses)
         print("% Density")
         print_latex("fragmentperlocs", one_frag_per_x_locs)
         print("% Fragments")
         print_latex("totalfragments", fragments_per_address_stats['total'])
+        print_latex("totalfragmentsuniqueaddresses", 
+                    fragments_per_unique_address_stats['total'])
         print_latex("maxfragmentsperaddress", 
                     fragments_per_address_stats['max'])
         print_latex("minfragmentsperaddress", 
