@@ -141,4 +141,3 @@ def useplot(figure, data, sort_by, min_subset_size=15, show_percentages=True):
                    show_percentages=show_percentages, with_lines=False) 
     plt.savefig(figure, bbox_inches='tight')
     plt.clf()
-    plt.show()
