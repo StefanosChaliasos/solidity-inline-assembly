@@ -17,29 +17,25 @@ QUERIES = {
     ),
 
     "non_inline_addresses_unique": (
-        "SELECT COUNT(*) "
-        "FROM NonAssemblyAddress "
-        "GROUP BY hash"
+        "SELECT COUNT(DISTINCT hash) "
+        "FROM NonAssemblyAddress"
     ),
     "non_inline_addresses_unique_filtered": (
-        "SELECT COUNT(*) "
+        "SELECT COUNT(DISTINCT hash) "
         "FROM NonAssemblyAddress "
         "WHERE nr_transactions {comp_tx} {nr_tx} "
-        "{filters_cond} nr_token_transfers {comp_tk} {nr_tk} "
-        "GROUP BY hash"
+        "{filters_cond} nr_token_transfers {comp_tk} {nr_tk}"
     ),
 
     "total_addresses_unique": (
-        "SELECT COUNT(*) "
-        "FROM Address "
-        "GROUP BY hash"
+        "SELECT COUNT(DISTINCT hash) "
+        "FROM Address"
     ),
     "total_addresses_unique_filtered": (
-        "SELECT COUNT(*) "
+        "SELECT COUNT(DISTINCT hash) "
         "FROM Address "
         "WHERE nr_transactions {comp_tx} {nr_tx} "
-        "{filters_cond} nr_token_transfers {comp_tk} {nr_tk} "
-        "GROUP BY hash"
+        "{filters_cond} nr_token_transfers {comp_tk} {nr_tk}"
     ),
 
     "files_per_address": "SELECT COUNT(*) FROM SolidityFile GROUP BY address_id",
@@ -300,7 +296,7 @@ QUERIES = {
         "FROM Fragment as f "
         "JOIN Contract AS c ON f.contract_id = c.contract_id "
         "JOIN SolidityFile AS s ON s.file_id = c.file_id "
-        "GROUP BY s.address_id"  
+        "GROUP BY s.address_id"
     ),
     "unique_fragments_per_address_filtered": (
         "SELECT COUNT(DISTINCT f.hash) "
@@ -310,7 +306,7 @@ QUERIES = {
         "JOIN Address AS a ON a.address_id = s.address_id "
         "WHERE a.nr_transactions {comp_tx} {nr_tx} "
         "{filters_cond} a.nr_token_transfers {comp_tk} {nr_tk} "
-        "GROUP BY s.address_id"  
+        "GROUP BY s.address_id"
     ),
 
     "sum_per_fragment": (
@@ -349,7 +345,7 @@ QUERIES = {
     "blocks_assembly": (
         "SELECT block_number, COUNT(*) "
         "FROM Address "
-        "GROUP BY block_number " 
+        "GROUP BY block_number "
         "ORDER BY block_number ASC"
     ),
     "blocks_assembly_filtered": (
@@ -357,14 +353,14 @@ QUERIES = {
         "FROM Address "
         "WHERE nr_transactions {comp_tx} {nr_tx} "
         "{filters_cond} nr_token_transfers {comp_tk} {nr_tk} "
-        "GROUP BY block_number " 
+        "GROUP BY block_number "
         "ORDER BY block_number ASC"
     ),
 
     "blocks_non_assembly": (
         "SELECT block_number, COUNT(*) "
         "FROM NonAssemblyAddress "
-        "GROUP BY block_number " 
+        "GROUP BY block_number "
         "ORDER BY block_number ASC"
     ),
     "blocks_non_assembly_filtered": (
@@ -372,7 +368,7 @@ QUERIES = {
         "FROM NonAssemblyAddress "
         "WHERE nr_transactions {comp_tx} {nr_tx} "
         "{filters_cond} nr_token_transfers {comp_tk} {nr_tk} "
-        "GROUP BY block_number " 
+        "GROUP BY block_number "
         "ORDER BY block_number ASC"
     ),
 
@@ -405,7 +401,7 @@ QUERIES = {
     # The following query checks if an address contain only certain OPCODES
     # and declarations. Note that this query is slow.
     "addresses_containing_direct": (
-        "SELECT COUNT(*) " 
+        "SELECT COUNT(*) "
         "FROM ( "
             "SELECT s.address_id, SUM(opf.occurences) as t, SUM(dpf.occurences) as t2 "
             "FROM Fragment as f "
@@ -479,7 +475,7 @@ QUERIES = {
             "LEFT JOIN {per_frag} as pf ON f.fragment_id = pf.fragment_id "
             "JOIN Contract AS c ON f.contract_id = c.contract_id "
             "JOIN SolidityFile AS s ON s.file_id = c.file_id "
-            "GROUP BY s.address_id, pf.{id}) " 
+            "GROUP BY s.address_id, pf.{id}) "
         "GROUP BY instr ORDER BY {aggr}(t) DESC LIMIT {limit}"
     ),
     "top_labels": (
@@ -590,7 +586,7 @@ QUERIES = {
 
     "start_block": (
         "SELECT min(block_number) FROM {table}"
-    ), 
+    ),
     "start_block_filtered": (
        "SELECT min(block_number) FROM {table} "
        "WHERE nr_transactions {comp_tx} {nr_tx} "
@@ -599,7 +595,7 @@ QUERIES = {
 
     "end_block": (
         "SELECT max(block_number) FROM {table} WHERE block_number != ''"
-    ), 
+    ),
     "end_block_filtered": (
        "SELECT max(block_number) FROM {table} WHERE block_number != '' "
        "WHERE nr_transactions {comp_tx} {nr_tx} "

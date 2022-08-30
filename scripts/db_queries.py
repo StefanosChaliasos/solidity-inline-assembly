@@ -70,7 +70,7 @@ def get_perc(a, b, precision=0):
     return float('{:.{precision}}'.format((a/b) * 100, precision=precision))
 
 
-def get_compiler_version(version): 
+def get_compiler_version(version):
     res = version[:version.find('-')]
     res = res[:res.find('+')]
     return res.replace('v', '')
@@ -209,7 +209,7 @@ def get_addresses(con, filters={}):
     )
     total_addresses = without_addresses + assembly_addresses
     return without_addresses, assembly_addresses, total_addresses
-  
+
 
 def get_unique_addresses(con, filters={}):
     without_addresses = process_res(
@@ -244,23 +244,23 @@ def print_sources_statistics(con, total_contracts, latex=False, filters={}):
                                            total_addresses_with)
     total_duplicate_contracts = total_addresses_with - total_unique_contracts
     non_loc = process_res(
-        run_query(con, 'total_loc', 
-                  {'table': 'NonAssemblyAddress'}, filters=filters), 
+        run_query(con, 'total_loc',
+                  {'table': 'NonAssemblyAddress'}, filters=filters),
         'value'
     )
     with_loc = process_res(
-        run_query(con, 'total_loc', 
+        run_query(con, 'total_loc',
                   {'table': 'Address'}, filters=filters), 'value'
     )
     non_loc_unique = process_res(
         run_query(
-            con, 'total_loc_from_unique', 
+            con, 'total_loc_from_unique',
             {'table': 'NonAssemblyAddress'}, filters=filters
         ), 'value'
     )
     with_loc_unique = process_res(
-        run_query(con, 'total_loc_from_unique', 
-                  {'table': 'Address'}, filters=filters), 
+        run_query(con, 'total_loc_from_unique',
+                  {'table': 'Address'}, filters=filters),
         'value'
     )
 
@@ -344,7 +344,7 @@ def print_statistics(con, filters):
         run_query(con, 'functions_per_address', filters=filters), 'values'
     )
     functions_with_assembly_per_address = process_res(
-        run_query(con, 'functions_with_assembly_per_address', 
+        run_query(con, 'functions_with_assembly_per_address',
                   filters=filters), 'values'
     )
     assembly_lines_per_address = process_res(
@@ -364,7 +364,7 @@ def print_statistics(con, filters):
     }
     title = "General statistics of addresses with inline assembly"
     print_res(title, general_stats, 'table')
-    
+
 
 def print_rq_question(question):
     lenght = len(question)
@@ -391,7 +391,7 @@ def rq6(con, limit=30):
         run_query(con, top_opcodes_query), 'values'
     )
 
-    all_but_top_10_opcodes = [str(v) for v in OPCODES.values() 
+    all_but_top_10_opcodes = [str(v) for v in OPCODES.values()
                               if v not in top_opcodes]
     high_level_constructs = [str(v) for v in HIGH_LEVEL_CONSTRUCTS.values()]
     old_opcodes = [str(v) for v in OLD_OPCODES.values()]
@@ -433,21 +433,21 @@ def get_total_instructions_per(con, filters={}):
         instr_in_addresses = process_res(
             run_query(
                 con, 'instructions_in_addresses_per_address',
-                {'instr':instr, 'table_per':table_name_per, 
+                {'instr':instr, 'table_per':table_name_per,
                  'table':table_name},
                 filters=filters
             ), 'tuples')
         instr_in_fragments = process_res(
             run_query(
                 con, 'instructions_per_fragment',
-                {'instr':instr, 'table_per':table_name_per, 
+                {'instr':instr, 'table_per':table_name_per,
                  'table':table_name},
                 filters=filters
             ), 'tuples')
         instr_in_unique_fragments = process_res(
             run_query(
                 con, 'instructions_per_unique_fragment',
-                {'instr':instr, 'table_per':table_name_per, 
+                {'instr':instr, 'table_per':table_name_per,
                  'table':table_name},
                 filters=filters
             ), 'tuples')
@@ -499,19 +499,19 @@ def measuring(con, figures, latex=False, disable_figures=False, filters={}):
             #fragments_hist_figure = os.path.join(figures, 'fragments_hist.pdf')
             #print(f"Saving histogram at {fragments_hist_figure}")
             #plot_histogram_tweaked(fragments_hist_figure, fragments_per_address,
-            #                       10, 20, 1, 5, "Inline Assembly Fragments", 
+            #                       10, 20, 1, 5, "Inline Assembly Fragments",
             #                       "Contract Addresses")
             # Cumulative
             fragments_cum_figure = os.path.join(figures, 'fragments_cum.pdf')
             print(f"Saving cumulative distribution at {fragments_cum_figure}")
-            (number_of_fragments, 
+            (number_of_fragments,
              fragments_percentage) = get_cumulative_distribution(
                      fragments_per_address)
-            plot_signle_line(fragments_cum_figure, 
+            plot_signle_line(fragments_cum_figure,
                              number_of_fragments,
-                             fragments_percentage, 
+                             fragments_percentage,
                              "Number of fragments",
-                             "Percentage", 
+                             "Percentage",
                              [1, 10, 20, 30, 40, 50, 60, 70, 81]
                              ,"blue")
         return fragments_per_address_stats, fragments_per_unique_address_stats
@@ -520,10 +520,10 @@ def measuring(con, figures, latex=False, disable_figures=False, filters={}):
         unique_fragments = process_res(
             run_query(con, 'unique_fragments', filters=filters), 'value'
         )
-        uf_perc = get_perc(unique_fragments, total_fragments) 
+        uf_perc = get_perc(unique_fragments, total_fragments)
         print(f"{unique_fragments}/{total_fragments} ({uf_perc}%) fragments are unique")
         unique_fragments_per_address = get_stats(process_res(
-            run_query(con, 'unique_fragments_per_address', filters=filters), 
+            run_query(con, 'unique_fragments_per_address', filters=filters),
             'values'
         ))
         unique_fragments_per_address_table = {
@@ -537,27 +537,27 @@ def measuring(con, figures, latex=False, disable_figures=False, filters={}):
             total_instructions_per_unique_fragment)
         # Histogram
         if not disable_figures:
-            instructions_hist_figure = os.path.join(figures, 
+            instructions_hist_figure = os.path.join(figures,
                                                     'instructions_hist.pdf')
             print(f"Saving histogram at {instructions_hist_figure}")
-            plot_histogram_tweaked(instructions_hist_figure, 
+            plot_histogram_tweaked(instructions_hist_figure,
                                    total_instructions_per_unique_fragment,
-                                   20, 50, 1, 10, "Instructions", 
+                                   20, 50, 1, 10, "Instructions",
                                    "Fragments", xticks_font=16)
         # Cumulative
         #instructions_cum_figure = os.path.join(figures, 'instructions_cum.pdf')
         #print(f"Saving cumulative distribution at {instructions_cum_figure}")
-        #(number_of_instructions, 
+        #(number_of_instructions,
         # fragments_instr_percentage) = get_cumulative_distribution(
         #         total_instructions_per_fragment)
-        #plot_signle_line(instructions_cum_figure, 
+        #plot_signle_line(instructions_cum_figure,
         #                 number_of_instructions,
-        #                 fragments_instr_percentage, 
+        #                 fragments_instr_percentage,
         #                 "Number of Instructions",
-        #                 "Percentage", 
+        #                 "Percentage",
         #                 [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110]
         #                 ,"blue")
-        return (instructions_per_fragment_stats, 
+        return (instructions_per_fragment_stats,
                 instructions_per_unique_fragment_stats)
 
     title = "RQ1: Measuring Inline Assembly"
@@ -568,18 +568,18 @@ def measuring(con, figures, latex=False, disable_figures=False, filters={}):
         run_query(con, 'fragments_per_address', filters=filters), 'values'
     )
     fragments_per_unique_address = process_res(
-        run_query(con, 'fragments_per_unique_address', filters=filters), 
+        run_query(con, 'fragments_per_unique_address', filters=filters),
         'values'
     )
-    (total_instructions_per_address, 
+    (total_instructions_per_address,
      total_instructions_per_fragment,
      total_instructions_per_unique_fragment) = get_total_instructions_per(
              con, filters=filters)
     total_fragments = sum(fragments_per_address)
     without_addresses, assembly_addresses, total_addresses = get_addresses(
             con, filters)
-    (without_addresses_unique, 
-     assembly_addresses_unique, 
+    (without_addresses_unique,
+     assembly_addresses_unique,
      total_addresses_unique) = get_unique_addresses(con, filters)
 
     assembly_contract_perc, assembly_contract_unique_perc = compute_addresses()
@@ -590,7 +590,7 @@ def measuring(con, figures, latex=False, disable_figures=False, filters={}):
     print()
     unique_fragments, uf_perc, unique_fragments_per_address = unique_fragments()
     print()
-    (instructions_per_fragment_stats, 
+    (instructions_per_fragment_stats,
      instructions_per_unique_fragment_stats) = instructions()
     print()
 
@@ -601,13 +601,13 @@ def measuring(con, figures, latex=False, disable_figures=False, filters={}):
             "Total Unique Contracts": {"Total": total_addresses_unique},
             "Total Unique Contracts using Inline Assembly": {
                 "Total": f"{assembly_addresses_unique} ({assembly_contract_unique_perc}%)"},
-            "Total Inline Assembly Fragments": {"Total": 
+            "Total Inline Assembly Fragments": {"Total":
                 fragments_per_address_stats['total']},
-            "Total Inline Assembly Fragments in Unique Addresses": {"Total": 
+            "Total Inline Assembly Fragments in Unique Addresses": {"Total":
                 fragments_per_unique_address_stats['total']},
-            "Total Inline Assembly Unique Fragments": {"Total": 
+            "Total Inline Assembly Unique Fragments": {"Total":
                 unique_fragments},
-            "Total Instructions": {"Total": 
+            "Total Instructions": {"Total":
                 instructions_per_fragment_stats['total']}
     }
     print_res('Statistics Table', statistics_table, 'table', first_col=55)
@@ -618,7 +618,7 @@ def measuring(con, figures, latex=False, disable_figures=False, filters={}):
         "Instructions per fragment": instructions_per_fragment_stats,
         "Instructions per unique fragment": instructions_per_unique_fragment_stats
     }
-    print_res('Fragments and Instructions Table', frag_instr_table, 
+    print_res('Fragments and Instructions Table', frag_instr_table,
               'table', first_col=40)
 
     if latex:
@@ -635,55 +635,55 @@ def measuring(con, figures, latex=False, disable_figures=False, filters={}):
         print_latex("fragmentperlocs", one_frag_per_x_locs)
         print("% Fragments")
         print_latex("totalfragments", fragments_per_address_stats['total'])
-        print_latex("totalfragmentsuniqueaddresses", 
+        print_latex("totalfragmentsuniqueaddresses",
                     fragments_per_unique_address_stats['total'])
-        print_latex("maxfragmentsperaddress", 
+        print_latex("maxfragmentsperaddress",
                     fragments_per_address_stats['max'])
-        print_latex("minfragmentsperaddress", 
+        print_latex("minfragmentsperaddress",
                     fragments_per_address_stats['min'])
-        print_latex("meanfragmentsperaddress", 
+        print_latex("meanfragmentsperaddress",
                     fragments_per_address_stats['mean'])
-        print_latex("medianfragmentsperaddress", 
+        print_latex("medianfragmentsperaddress",
                     fragments_per_address_stats['median'])
-        print_latex("sdfragmentsperaddress", 
+        print_latex("sdfragmentsperaddress",
                     fragments_per_address_stats['sd'])
         print("% Unique")
         print_latex("uniquefragments", unique_fragments)
         print_latex("uniquefragmentsperc", uf_perc, '\\%')
-        print_latex("maxuniquefragmentsperaddress", 
+        print_latex("maxuniquefragmentsperaddress",
                     unique_fragments_per_address['max'])
-        print_latex("minuniquefragmentsperaddress", 
+        print_latex("minuniquefragmentsperaddress",
                     unique_fragments_per_address['min'])
-        print_latex("meanuniquefragmentsperaddress", 
+        print_latex("meanuniquefragmentsperaddress",
                     unique_fragments_per_address['mean'])
-        print_latex("medianuniquefragmentsperaddress", 
+        print_latex("medianuniquefragmentsperaddress",
                     unique_fragments_per_address['median'])
-        print_latex("sduniquefragmentsperaddress", 
+        print_latex("sduniquefragmentsperaddress",
                     unique_fragments_per_address['sd'])
         print("% Instructions")
-        print_latex("totalinstructions", 
+        print_latex("totalinstructions",
                     instructions_per_fragment_stats['total'])
-        print_latex("totalinstructionsuniquefragments", 
+        print_latex("totalinstructionsuniquefragments",
                     instructions_per_unique_fragment_stats['total'])
-        print_latex("maxinstructionsperfragment", 
+        print_latex("maxinstructionsperfragment",
                     instructions_per_fragment_stats['max'])
-        print_latex("mininstructionsperfragment", 
+        print_latex("mininstructionsperfragment",
                     instructions_per_fragment_stats['min'])
-        print_latex("meaninstructionsperfragment", 
+        print_latex("meaninstructionsperfragment",
                     instructions_per_fragment_stats['mean'])
-        print_latex("medianinstructionsperfragment", 
+        print_latex("medianinstructionsperfragment",
                     instructions_per_fragment_stats['median'])
-        print_latex("sdinstructionssperfragment", 
+        print_latex("sdinstructionssperfragment",
                     instructions_per_fragment_stats['sd'])
-        print_latex("maxinstructionsperuniquefragment", 
+        print_latex("maxinstructionsperuniquefragment",
                     instructions_per_unique_fragment_stats['max'])
-        print_latex("mininstructionsperuniquefragment", 
+        print_latex("mininstructionsperuniquefragment",
                     instructions_per_unique_fragment_stats['min'])
-        print_latex("meaninstructionsperuniquefragment", 
+        print_latex("meaninstructionsperuniquefragment",
                     instructions_per_unique_fragment_stats['mean'])
-        print_latex("medianinstructionsperuniquefragment", 
+        print_latex("medianinstructionsperuniquefragment",
                     instructions_per_unique_fragment_stats['median'])
-        print_latex("sdinstructionssperuniquefragment", 
+        print_latex("sdinstructionssperuniquefragment",
                     instructions_per_unique_fragment_stats['sd'])
         print(":::::::::::::::")
 
@@ -718,7 +718,7 @@ def smart_contract_characteristics(con, figures, latex, disable_figures, filters
             )
         return attributes_res
 
-    assembly_res = process_characteristics("Assembly", 
+    assembly_res = process_characteristics("Assembly",
                                            "addresses_characteristics")
     non_assembly_res = process_characteristics(
             "Non Assembly", 'non_assembly_addresses_characteristics')
@@ -751,7 +751,7 @@ def smart_contract_characteristics(con, figures, latex, disable_figures, filters
                 lambda x: x != '', non_assembly_res[attribute]['list']))
             plot_histogram_tweaked(
                 fig, assembly_res[attribute]['list'],
-                10, 30, 1, 10, 
+                10, 30, 1, 10,
                 "Number of " + lookup_names[attribute],
                 "Percentage of contract addresses",
                 perc=True,
@@ -766,7 +766,7 @@ def smart_contract_characteristics(con, figures, latex, disable_figures, filters
         fragments_table = {}
         for char, comp, value in args:
             fragments_per_address = process_res(run_query(
-                con, 'fragments_per_address_filter', 
+                con, 'fragments_per_address_filter',
                 {'char': char, 'comp': comp, 'value': value}, filters
             ), 'values')
             if len(fragments_per_address) == 0:
@@ -879,12 +879,12 @@ def evolution(con, figures, latex, disable_figures, filters):
             only_non_assembly.append(count_total)
         print(f"Saving result to {figure}")
         plot_signle_line(
-            figure, blocks, percentages, 
+            figure, blocks, percentages,
             'Date',
-            '\\% of contracts using assembly', 
-            [blocks[0], 2025000, 4130000, 6105000, 
+            '\\% of contracts using assembly',
+            [blocks[0], 2025000, 4130000, 6105000,
              8305000, 10610000, 12575000, blocks[-1]],
-            xticks_labels=['2015', '2016', '2017', '2018', '2019', '2020', 
+            xticks_labels=['2015', '2016', '2017', '2018', '2019', '2020',
                            '2021', '2022'],
             color='blue',
             secondary_data=only_non_assembly,
@@ -918,7 +918,7 @@ def evolution(con, figures, latex, disable_figures, filters):
     non_assembly_compiler = get_per_major_version('compiler_non_assembly')
     res = {v: {'non assembly': non_assembly_compiler.get(v, 0),
                'assembly': assembly_compiler.get(v, 0),
-               'perc': get_perc(assembly_compiler.get(v, 0), 
+               'perc': get_perc(assembly_compiler.get(v, 0),
                (assembly_compiler.get(v, 0) + non_assembly_compiler.get(v, 0)))}
            for v in non_assembly_compiler}
     res = dict(sorted(res.items(), key=lambda item: item[0]))
@@ -973,14 +973,14 @@ def taxonomy(con, figures, latex, disable_figures, filters):
                 elif v in DECLARATIONS:
                     declarations.append(str(DECLARATIONS[v]))
         print()
-        containing_query_params = { 
+        containing_query_params = {
                 'opcodes': ",".join(opcodes),
                 'declarations': ",".join(declarations),
                 'old_opcodes': ",".join(old_opcodes),
                 'high_level_constructs': ",".join(high_level_constructs)
         }
         containing_res = process_res(
-            run_query(con, 'addresses_containing', 
+            run_query(con, 'addresses_containing',
                       containing_query_params, filters=filters), 'values'
         )
         res = get_perc(len(containing_res), assembly_addresses, 4)
@@ -1034,7 +1034,7 @@ def taxonomy(con, figures, latex, disable_figures, filters):
     for name, category in categories:
         process_category(name, category)
     category_percentages = sort_dict(category_percentages)
-    print_res("Instruction groups", category_percentages, 
+    print_res("Instruction groups", category_percentages,
               'table', first_col=45)
 
     if not disable_figures:
@@ -1074,10 +1074,10 @@ def taxonomy(con, figures, latex, disable_figures, filters):
             c = c.replace('keccak256', 'keccak')
             c = c.replace('sha3', 'sha')
             c = c.replace('mstore8', 'mstoreeight')
-            c = c.replace('stack,memory,andstorageoperationsperc', 
+            c = c.replace('stack,memory,andstorageoperationsperc',
                           'stackmemoryandstorageoperationsperc')
             c = c.replace('create2', 'createtwo')
-            c = c.replace('push,duplication,andexchangeoperationsperc', 
+            c = c.replace('push,duplication,andexchangeoperationsperc',
                           'pushduplicationandexchangeoperationsperc')
             print(c)
 
@@ -1097,7 +1097,7 @@ def select_fragments(con, output_filename):
     lines = []
     hashes = set()
 
-    def get_top(query_name, part, start_number, end_number, 
+    def get_top(query_name, part, start_number, end_number,
                 extra=None, extra2=None):
         print(f"Process {part}")
         lines.append(part.center(80, '#'))
@@ -1159,23 +1159,23 @@ def select_fragments(con, output_filename):
     query = QUERIES['total_fragments_in'].format(
                 ",".join(f'"{h}"' for h in hashes))
     top_fragments_percentage = get_perc(process_res(
-        run_query(con, query), 'value'), 
+        run_query(con, query), 'value'),
         total_fragments)
     first, last = 51 + padding, 70 + 2*padding
-    get_top('top_fragments_transactions', 
-            'Top fragments by number of transactions', 
+    get_top('top_fragments_transactions',
+            'Top fragments by number of transactions',
             first, last, 'Transactions Number')
     first, last = 71 + 2*padding, 90 + 3*padding
-    get_top('top_fragments_unique_callers', 
-            'Top fragments by unique callers', 
+    get_top('top_fragments_unique_callers',
+            'Top fragments by unique callers',
             first, last, 'Unique callers')
     first, last = 91 + 3*padding, 110 + 4*padding
-    get_top('top_fragments_contracts', 
-            'Top fragments by unique contracts', 
+    get_top('top_fragments_contracts',
+            'Top fragments by unique contracts',
             first, last, 'Address Duplicates', 'Address Hash')
     first, last = 111 + 4*padding, 130 + 5*padding
-    get_top('random_fragments', 
-            'Random fragments', 
+    get_top('random_fragments',
+            'Random fragments',
             first, last)
     with open(output_filename, 'w') as f:
         for line in lines:
@@ -1316,7 +1316,7 @@ def main():
     if args.rq1:
         measuring(con, args.figures, args.latex, args.disable_figures, filters)
     if args.rq2:
-        smart_contract_characteristics(con, args.figures, args.latex, 
+        smart_contract_characteristics(con, args.figures, args.latex,
             args.disable_figures, filters)
     if args.rq3:
         evolution(con, args.figures, args.latex, args.disable_figures, filters)
