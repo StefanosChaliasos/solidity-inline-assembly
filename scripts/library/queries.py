@@ -146,7 +146,7 @@ QUERIES = {
         "JOIN Fragment AS f ON f.contract_id = c.contract_id "
         "GROUP BY a.hash"
     ),
-    "fragments_per_address_filtered": (
+    "fragments_per_unique_address_filtered": (
         "SELECT COUNT(DISTINCT f.hash) "
         "FROM Address AS a "
         "JOIN SolidityFile AS s ON s.address_id = a.address_id "
