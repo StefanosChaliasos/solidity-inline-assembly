@@ -113,7 +113,8 @@ def process_parser_res(address, contracts_lookup, parser_results):
     global FRAGMENT_ID
     global PER_FRAGMENT_ID
 
-    address_data = contracts_lookup.get(address, {})
+    # Let it crash if we cannot find the address
+    address_data = contracts_lookup[address]
     # ['address_id', 'address', 'nr_transactions', 'unique_callers',
     #  'nr_token_transfers', 'is_erc20', 'is_erc721', 'tvl'
     #  'solidity_version_etherscan', 'evm_version', 'block_number', 'loc',
@@ -267,7 +268,7 @@ def process_results(output, contracts_lookup, duplicates, parser):
     for _, addresses in tqdm(duplicates['hashes'].items()):
         parser_results = get_parser_results(parser, addresses)
         is_assembly_address = has_assembly(parser_results)
-        
+
         if is_assembly_address:
             # get assembly rows
             for address in addresses:
@@ -286,7 +287,7 @@ def process_results(output, contracts_lookup, duplicates, parser):
                 fragments.extend(fragment_rows)
                 for instr, rows in per_fragment_rows.items():
                     per_fragments[instr].extend(rows)
-            
+
                 # If more than 10k addresses save and clean
                 if len(addresses_rows) > ROWS_LIMIT:
                     save_file(output, 'Address', addresses_rows)
@@ -307,11 +308,11 @@ def process_results(output, contracts_lookup, duplicates, parser):
                 )
                 non_assembly_addresses.append(non_assembly_rows)
                 if len(non_assembly_addresses) > ROWS_LIMIT:
-                    save_file(output, 'NonAssemblyAddress', 
+                    save_file(output, 'NonAssemblyAddress',
                               non_assembly_addresses)
                     non_assembly_addresses = []
 
-    save_file(output, 'NonAssemblyAddress', 
+    save_file(output, 'NonAssemblyAddress',
               non_assembly_addresses)
     save_file(output, 'Address', addresses_rows)
     save_file(output, 'SolidityFile', files)
@@ -400,7 +401,7 @@ def main():
     print("Read LOC")
     with open(args.lines, 'r') as f:
         reader = csv.reader(f, delimiter=",")
-        lines = {row[0].split('/')[-1].replace('.sol', ''): int(row[1]) 
+        lines = {row[0].split('/')[-1].replace('.sol', ''): int(row[1])
                  for row in reader}
     print("Read Duplicates")
     with open(args.duplicates, 'r') as f:
@@ -422,8 +423,8 @@ def main():
             contracts[row[0]] = {
                 'nr_transactions': row[1], 'unique_callers': row[2],
                 'nr_token_transfers': row[3], 'tvl': row[4],
-                'is_erc20': row[5], 'is_erc721': row[6], 
-                'block_number': row[7], 
+                'is_erc20': row[5], 'is_erc721': row[6],
+                'block_number': row[7],
                 'loc': lines.get(get_analysed_address(duplicates, row[0]), None),
                 'hash': duplicates['addresses'].get(row[0], None),
                 'CompilerVersion': etherscan_data.get(
