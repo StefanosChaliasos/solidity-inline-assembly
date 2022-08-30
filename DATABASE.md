@@ -14,7 +14,7 @@ the contract addresses, run the following commands.
 ```bash
 # With an average internet connection that could take up to 15 minutes.
 curl -o database-solidity-inline-assembly.tar.gz \
-    https://zenodo.org/record/6801913/files/database-solidity-inline-assembly.tar.gz\?download\=1
+    https://zenodo.org/record/7035168/files/database-solidity-inline-assembly.tar.gz\?download\=1
 tar xvf database-solidity-inline-assembly.tar.gz
 ```
 
