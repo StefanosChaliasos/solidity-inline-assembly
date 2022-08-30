@@ -714,7 +714,7 @@ def smart_contract_characteristics(con, figures, latex, disable_figures, filters
             if attribute in ('is_erc721', 'is_erc20'):
                 continue
             attributes_res[attribute]['stats'] = get_stats(
-                    attributes_res[attribute]['counts']
+                    attributes_res[attribute]['list']
             )
         return attributes_res
 
