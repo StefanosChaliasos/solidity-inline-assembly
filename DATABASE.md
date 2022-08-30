@@ -7,7 +7,7 @@ __NOTE:__ The total size of the downloaded files after extracting them is
 This file contains the instructions for downloading the SQLite database used to 
 perform the quantitative analysis presented in the paper. 
 You can find the database at this link
-<https://zenodo.org/record/6801913>.
+<https://zenodo.org/record/7035168>.
 To download the tarball that contains the database and a file with all
 the contract addresses, run the following commands.
 
