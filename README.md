@@ -219,7 +219,7 @@ Get the total number of contracts without inline assembly.
 
 ```
 inline@a9cc16b080f9:~$ sqlite3 database/inline.db "SELECT COUNT(*) FROM NonAssemblyAddress"
-5331931
+5268551
 ```
 
 Get the total number of contracts containing inline assembly with more than 10 transactions.
@@ -240,7 +240,7 @@ Count all contracts that contain inline assembly fragments.
 
 ```
 inline@a9cc16b080f9:~$ sqlite3 database/inline.db "SELECT COUNT(*) FROM Contract WHERE has_assembly = 'True'"
-2128026
+2048336
 ```
 
 Get the address of 10 smart contracts that use the `extcodesize` OPCODE.
@@ -352,8 +352,7 @@ Contracts with at least one transaction or token transfer: 12475080
 
 __NOTE:__ This script does not print the "Total Contracts" and 
 "Contracts without a transaction or token transfer" rows because they 
-are not part of our dataset. Furthermore, there is a typo in the 
-submitted draft; instead of `14,339,876` it should be `14,339,858`.
+are not part of our dataset. 
 
 Proceed with the next script:
 
@@ -370,11 +369,11 @@ Source statistics
 -----------------
 
 --------------------------------------------------------------------------------
-Solidity source available: 6962185 (55%)
-Solidity source not available: 5512896 (44%)
+Solidity source available: 6851728 (54%)
+Solidity source not available: 5623353 (45%)
 LOC: 722666226
 --------------------------------------------------------------------------------
-Unique Solidity Contracts: 110457 (1%)
+Unique Solidity Contracts: 159241 (2%)
 LOC of Unique Solidity Contracts: 55801418
 --------------------------------------------------------------------------------
 ```
@@ -406,33 +405,36 @@ RQ1: Measuring Inline Assembly
 
 
 --Density of inline assembly fragments--
-One fragment per 221 LOCS
+One fragment per 212 LOCS
 ----------------------------------------
 
 Saving cumulative distribution at figures/fragments_cum.pdf
 
-5764/3555672 (0%) fragments are unique
+5388/3427424 (0%) fragments are unique
 
 Saving histogram at figures/instructions_hist.pdf
 
-                  Statistics Table
-====================================================
-                                               Total
-----------------------------------------------------
-Total Contracts                                6.9 M
-Total Contracts using Inline Assembly   1630254 (23%)
-Total Inline Assembly Fragments                3.5 M
-Total Inline Assembly Unique Fragments         5.7 K
-Total Instructions                            34.3 M
+                          Statistics Table
+===================================================================
+                                                              Total
+-------------------------------------------------------------------
+Total Contracts                                               6.8 M
+Total Contracts using Inline Assembly                  1583177 (23%)
+Total Unique Contracts                                      159.2 K
+Total Unique Contracts using Inline Assembly            62848 (39%)
+Total Inline Assembly Fragments                               3.4 M
+Total Inline Assembly Fragments in Unique Addresses         176.9 K
+Total Inline Assembly Unique Fragments                        5.3 K
+Total Instructions                                           33.7 M
 
                                         Fragments and Instructions Table
 ================================================================================================================
                                                total         max         min        mean      median          sd
 ----------------------------------------------------------------------------------------------------------------
-Fragments per contract                         3.5 M          81           1        2.18         2.0        3.57
-Unique fragments per contract                  3.4 M          57           1        2.09         2.0        2.94
-Instructions per fragment                     34.3 M       4.0 K           1        9.74           8       11.59
-Instructions per unique fragment              94.2 K       4.0 K           1       16.62         4.0         135
+Fragments per contract                         3.4 M          81           1        2.16           2        3.57
+Unique fragments per contract                  3.2 M          53           1        2.08           2        2.93
+Instructions per fragment                     33.7 M       4.0 K           1        9.94           8        9.44
+Instructions per unique fragment              56.2 K       4.0 K           1       10.62           4       63.52
 ```
 
 The claims of the paper that are supported by that script are:
@@ -441,13 +443,13 @@ The claims of the paper that are supported by that script are:
 * Figure 5 -> Fragments and Instructions Table
 * Figure 6 -> `figures/fragments_cum.pdf`
 * Figure 7 -> `figures/instructions_hist.pdf`
-* Statement on line 385 about unique fragments -> 5764/3555672 (0%) fragments are unique
-* Statement on line 395 about fragments per LOC -> One fragment per 221 LOCS
+* Statement on line 408 about unique fragments -> 5388/3427424 (0%) fragments are unique
+* Statement on line 431 about fragments per LOC -> One fragment per 212 LOCS
 
 ### RQ2: Smart Contract Characteristics (Section 4.2)
 
 ```
-#~2 minutes
+#~5 minutes
 inline@a9cc16b080f9:~$ python scripts/db_queries.py database/inline.db --rq2
 ```
 
@@ -465,30 +467,30 @@ Saving figures/comp_nr_token_transfers.pdf
 ============================================================================================================
                                            total         max         min        mean      median          sd
 ------------------------------------------------------------------------------------------------------------
-Non Assembly nr_transactions             482.6 M     126.7 M           0      54.2 K       6.0 K       1.4 M
-Assembly nr_transactions                 208.5 M      19.5 M           0      29.2 K       4.4 K     350.9 K
-Non Assembly unique_callers               76.2 M      18.2 M           0      15.9 K       2.9 K     271.9 K
-Assembly unique_callers                   48.7 M       5.6 M           0      10.9 K       2.6 K     102.3 K
-Non Assembly nr_token_transfers          123.2 M      37.1 M           0      28.9 K       2.9 K     581.1 K
-Assembly nr_token_transfers              271.0 M       8.1 M           0      30.0 K       6.0 K     179.7 K
-Non Assembly tvl                          20.7 M       9.8 M           0         197           0      37.8 K
-Assembly tvl                               4.7 M     572.7 K           0       77.84         0.0       4.4 K
-Non Assembly loc                           1.2 M       9.4 K           0         866         699         849
-Assembly loc                               5.4 M      14.1 K           0       1.8 K       1.4 K       1.7 K
+Non Assembly nr_transactions             511.9 M     126.7 M           0       97.16           0      60.7 K
+Assembly nr_transactions                 230.6 M      19.5 M           0         145           1      23.6 K
+Non Assembly unique_callers               86.5 M      18.2 M           0       16.42           0       8.2 K
+Assembly unique_callers                   59.2 M       5.6 M           0       37.45           1       5.4 K
+Non Assembly nr_token_transfers          139.2 M      37.1 M           0       26.42           2      16.5 K
+Assembly nr_token_transfers              302.9 M       8.1 M           0         191           2      13.7 K
+Non Assembly tvl                          20.7 M       9.8 M           0        3.94           0       5.3 K
+Assembly tvl                               4.7 M     572.7 K           0        3.01           0         879
+Non Assembly loc                         328.5 M       9.4 K           0       62.36          40       67.53
+Assembly loc                             394.1 M      14.1 K           0         248         161         511
 
                                                  Fragments
 ===========================================================================================================
                                           total         max         min        mean      median          sd
 -----------------------------------------------------------------------------------------------------------
 When a.nr_transactions > 50000            1.7 K          38           1        4.12           2        5.44
-When a.nr_transactions <= 50000           3.5 M          81           1        2.18           2        3.57
+When a.nr_transactions <= 50000           3.4 M          81           1        2.16         2.0        3.57
 
 
 ----------ERC20 and ERC721----------
 Non Assembly ERC20 percentage: 1.3%
-Assembly ERC20 percentage: 0.092%
-Non Assembly ERC721 percentage: 0.0066%
-Assembly ERC721 percentage: 0.023%
+Assembly ERC20 percentage: 0.093%
+Non Assembly ERC721 percentage: 0.0067%
+Assembly ERC721 percentage: 0.024%
 ------------------------------------
 ```
 
@@ -499,7 +501,7 @@ The claims of the paper that are supported by that script are:
 * Figure 10 -> `figures/comp_nr_token_transfers.pdf`
 * Figure 11 -> Characteristics
 * Figure 12 -> ERC20 and ERC721
-* Statement on line 485 about mean inline assembly fragments when tx > 50K and tx <= 50K -> Fragments
+* Statement on line 522 about mean inline assembly fragments when tx > 50K and tx <= 50K -> Fragments
 
 ### RQ3: Evolution of Inline Assembly (Section 4.3)
 
@@ -534,7 +536,6 @@ The claims of the paper that are supported by that script are:
 
 * Figure 13 -> `figures/evolution_blocks.pdf`
 * Figure 14 -> Percentages per compiler version
-* Statement on line 485 about mean inline assembly fragments when tx > 50K and tx <= 50K -> Fragments
 
 ### RQ4: A Taxonomy of Inline Assembly (Section 4.4)
 
@@ -555,14 +556,14 @@ RQ4: A Taxonomy of Inline Assembly
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-add                        79.55       1.2 M       7.7 M
-sub                         7.67     125.0 K     255.5 K
-exp                         1.77      28.7 K      79.7 K
-div                         1.15      18.7 K     132.0 K
-mul                         0.97      15.8 K     121.8 K
-mod                         0.72      11.7 K      22.0 K
-mulmod                      0.06       1.0 K     128.8 K
-addmod                      0.01         123       7.1 K
+add                        80.22       1.2 M       7.6 M
+sub                         7.75     122.7 K     244.0 K
+exp                         1.78      28.2 K      77.6 K
+div                         1.12      17.6 K     125.2 K
+mul                         0.92      14.6 K     116.7 K
+mod                         0.70      11.1 K      20.8 K
+mulmod                      0.06         942     111.8 K
+addmod                      0.00          64       1.0 K
 sdiv                        0.00           2          24
 signextend                  0.00           2          40
 smod                           0           0           0
@@ -576,25 +577,25 @@ smod                           0           0           0
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-eq                         47.95     781.6 K       1.6 M
-lt                          1.99      32.3 K     119.2 K
-gt                          1.86      30.2 K      36.5 K
-slt                         0.05         843         860
+eq                         49.27     780.0 K       1.6 M
+lt                          1.98      31.2 K     115.2 K
+gt                          1.88      29.8 K      35.1 K
+slt                         0.04         685         702
 sgt                         0.00          63         190
 
                      Bitwise Logic
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-and                        66.41       1.0 M       1.2 M
-iszero                      7.83     127.5 K     288.3 K
-byte                        3.07      50.0 K      71.5 K
-shr                         2.00      32.5 K      60.3 K
-or                          1.66      27.0 K      50.5 K
-not                         1.39      22.7 K      47.5 K
-xor                         0.36       5.8 K      10.7 K
-shl                         0.20       3.3 K      22.7 K
-sar                         0.00          35          50
+and                        68.24       1.0 M       1.2 M
+iszero                      7.94     125.7 K     282.1 K
+byte                        3.09      48.8 K      69.5 K
+shr                         2.04      32.2 K      59.8 K
+or                          1.64      25.9 K      48.3 K
+not                         1.31      20.7 K      43.9 K
+xor                         0.35       5.5 K      10.2 K
+shl                         0.19       3.0 K      22.2 K
+sar                         0.00          21          36
 
 
 ###############################################
@@ -605,8 +606,8 @@ sar                         0.00          35          50
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-keccak256                   0.97      15.8 K     113.4 K
-sha3                        0.01         185       1.4 K
+keccak256                   0.96      15.2 K     109.8 K
+sha3                        0.01         172       1.3 K
 
 
 ##########################
@@ -617,30 +618,30 @@ sha3                        0.01         185       1.4 K
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-gas                        23.29     379.6 K     420.4 K
-returndatasize             16.87     275.0 K     641.7 K
-returndatacopy             16.84     274.6 K     297.9 K
-calldatasize               15.06     245.4 K     494.1 K
-calldatacopy               15.01     244.6 K     247.8 K
-calldataload                8.26     134.6 K     233.8 K
-chainid                     5.44      88.6 K      91.1 K
-address                     0.79      12.8 K      12.9 K
-codesize                    0.33       5.3 K       5.3 K
-codecopy                    0.33       5.3 K       5.3 K
-callvalue                   0.24       3.9 K       6.4 K
-caller                      0.18       2.8 K       3.0 K
-gasprice                    0.00          23          45
-origin                      0.00          19          19
-selfbalance                 0.00          15          48
+gas                        23.51     372.2 K     411.7 K
+returndatasize             16.91     267.6 K     620.4 K
+returndatacopy             16.89     267.4 K     289.2 K
+calldatasize               15.15     239.8 K     482.4 K
+calldatacopy               15.09     238.8 K     241.6 K
+calldataload                8.45     133.8 K     231.6 K
+chainid                     5.43      85.9 K      87.8 K
+address                     0.75      11.9 K      12.0 K
+codesize                    0.33       5.2 K       5.2 K
+codecopy                    0.33       5.2 K       5.2 K
+callvalue                   0.22       3.4 K       6.0 K
+caller                      0.17       2.6 K       2.8 K
+origin                      0.00          16          16
+selfbalance                 0.00          11          44
+gasprice                    0.00           9          17
 
                   Account Information
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-extcodecopy                43.69     712.2 K     712.2 K
-extcodesize                13.52     220.4 K     245.7 K
-extcodehash                 4.74      77.2 K      77.6 K
-balance                     0.54       8.8 K       8.8 K
+extcodecopy                44.97     712.0 K     712.0 K
+extcodesize                12.84     203.3 K     226.9 K
+extcodehash                 3.26      51.6 K      51.7 K
+balance                     0.56       8.8 K       8.8 K
 
 
 ################################
@@ -651,10 +652,10 @@ balance                     0.54       8.8 K       8.8 K
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-timestamp                   0.84      13.6 K      13.6 K
-number                      0.30       4.8 K       4.8 K
-blockhash                   0.29       4.8 K       4.8 K
-coinbase                    0.29       4.7 K       4.8 K
+timestamp                   0.85      13.5 K      13.5 K
+number                      0.30       4.6 K       4.6 K
+blockhash                   0.30       4.6 K       4.6 K
+coinbase                    0.29       4.6 K       4.6 K
 difficulty                  0.00           1           1
 gaslimit                       0           0           0
 
@@ -667,24 +668,24 @@ gaslimit                       0           0           0
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-pop                         0.24       3.9 K       8.2 K
+pop                         0.24       3.8 K       7.8 K
 pc                             0           0           0
 
                          Memory
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-mload                      84.52       1.3 M       6.7 M
-mstore                     47.88     780.5 K       4.6 M
-mstore8                     0.31       4.9 K      39.1 K
-msize                       0.27       4.4 K       4.4 K
+mload                      85.32       1.3 M       6.6 M
+mstore                     48.92     774.4 K       4.6 M
+mstore8                     0.29       4.5 K      37.4 K
+msize                       0.26       4.1 K       4.1 K
 
                         Storage
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-sload                       8.32     135.5 K     201.5 K
-sstore                      3.41      55.5 K     157.9 K
+sload                       8.22     130.1 K     190.0 K
+sstore                      3.17      50.2 K     145.6 K
 
 
 #############################################
@@ -695,17 +696,17 @@ sstore                      3.41      55.5 K     157.9 K
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-switch                     21.23     346.1 K     495.4 K
-if                          4.75      77.4 K     187.8 K
-for                         1.79      29.2 K      88.0 K
+switch                     21.35     337.9 K     484.0 K
+if                          4.76      75.3 K     181.4 K
+for                         1.78      28.2 K      85.0 K
 leave                          0           0           0
 
                   Control Flow Opcodes
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-jumpi                       0.06       1.0 K       1.3 K
-jump                        0.01         133         146
+jumpi                       0.07       1.0 K       1.3 K
+jump                        0.01         117         118
 jumpdest                       0           0           0
 
 
@@ -717,32 +718,32 @@ jumpdest                       0           0           0
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-delegatecall               21.10     343.9 K     346.8 K
-call                        2.65      43.2 K      51.4 K
-staticcall                  1.59      26.0 K      31.0 K
-callcode                    0.00           6          18
+delegatecall               21.36     338.2 K     340.9 K
+call                        2.64      41.7 K      49.8 K
+staticcall                  1.39      21.9 K      26.3 K
+callcode                       0           0           0
 
                          Create
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-create2                    43.83     714.5 K     715.2 K
-create                      6.44     105.0 K     105.3 K
+create2                    45.09     713.8 K     714.4 K
+create                      6.58     104.1 K     104.4 K
 
                        Execution
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-revert                     29.28     477.2 K     716.5 K
-return                     15.70     255.9 K     297.4 K
-stop                        0.14       2.3 K       2.3 K
+revert                     28.59     452.6 K     686.5 K
+return                     15.77     249.6 K     290.4 K
+stop                        0.15       2.3 K       2.3 K
 selfdestruct                0.00           4           7
 
                         Invalid
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-invalid                     0.05         774       1.9 K
+invalid                     0.04         640       1.7 K
 
 
 #########################
@@ -753,8 +754,8 @@ invalid                     0.05         774       1.9 K
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-let                        72.87       1.1 M       3.6 M
-function                    0.01         111         337
+let                        73.24       1.1 M       3.5 M
+function                    0.00          49         113
 
 
 ########################
@@ -778,11 +779,11 @@ dup                            0           0           0
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-log1                        0.19       3.1 K       3.1 K
-log4                        0.07       1.2 K       1.2 K
-log3                        0.05         797         818
-log0                        0.05         789         789
-log2                        0.05         789         789
+log1                        0.18       2.8 K       2.8 K
+log4                        0.05         809         820
+log3                        0.03         548         569
+log2                        0.03         541         541
+log0                        0.03         539         539
 
 
 ##########################
@@ -793,7 +794,7 @@ log2                        0.05         789         789
 ========================================================
                             perc         occ       total
 --------------------------------------------------------
-datasize                    0.00          13          13
+datasize                    0.00           1           1
 dataoffset                     0           0           0
 datacopy                       0           0           0
 setimmutable                   0           0           0
@@ -809,16 +810,16 @@ verbatim                       0           0           0
 =========================================================
                                                      perc
 ---------------------------------------------------------
-Stack, Memory, and Storage Operations               90.20
-Enviromental Information                            81.29
-Arithmetic Operations                               79.68
-Comparison and Bitwise Logic Operations             75.99
-System Operations                                   73.81
-YUL Declarations                                    72.87
-Flow Operations                                     24.02
-Hashing Operations                                   0.98
-Block Information                                    0.84
-Logging Operations                                   0.22
+Stack, Memory, and Storage Operations               90.94
+Enviromental Information                            80.86
+Arithmetic Operations                               80.31
+Comparison and Bitwise Logic Operations             77.91
+System Operations                                   74.16
+YUL Declarations                                    73.24
+Flow Operations                                     24.17
+Hashing Operations                                   0.97
+Block Information                                    0.85
+Logging Operations                                   0.20
 Push, Duplication, and Exchange Operations           0.00
 YUL Special Instructions                              0.0
 ```
