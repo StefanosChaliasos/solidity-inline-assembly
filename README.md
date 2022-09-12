@@ -7,7 +7,7 @@ This is the artifact for the OOPSLA'22 paper titled
 * Stefanos Chaliasos, Arthur Gervais, and Benjamin Livshits. 2022
 A Study of Inline Assembly in Solidity Smart Contracts.
 In Proceedings of the ACM on Programming Languages (OOPSLA '22), 
-2022, Auckland, New Zealand, XX pages. 
+2022, Auckland, New Zealand, 27 pages. 
 ([doi:10.1145/3563328](https://doi.org/10.1145/3563328))
 
 An archived version of the artifact is also available on Zenodo.
