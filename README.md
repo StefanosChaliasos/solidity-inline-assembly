@@ -8,10 +8,10 @@ This is the artifact for the OOPSLA'22 paper titled
 A Study of Inline Assembly in Solidity Smart Contracts.
 In Proceedings of the ACM on Programming Languages (OOPSLA '22), 
 2022, Auckland, New Zealand, XX pages. 
-([doi:XX.XXXX/XXXXXXX](https://doi.org/XX.XXXX/XXXXXXX))
+([doi:10.1145/3563328](https://doi.org/10.1145/3563328))
 
-An archived version of the artifact is also available on Zenodo. 
-See <https://doi.org/10.5281/zenodo.6807330>.
+An archived version of the artifact is also available on Zenodo.
+See <https://doi.org/10.5281/zenodo.7071281>.
 
 __IMPORTANT NOTE:__ Before running any of the following commands, first move to
 the project directory (e.g., `cd solidity-inline-assembly`).
